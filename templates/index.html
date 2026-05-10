@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Search | Song Lyrics (Eng)</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    h1 {
+        color: #332;
+        text-align: center;
+    }
+    form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    input[type=text] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 97%;
+    }
+    button {
+        background-color: #007BFF;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    /* Стиль для блока текста песни */
+    .lyrics {
+        background: #fff;
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        white-space: pre-wrap;
+        font-family: 'Courier New', monospace;
+        line-height: 1.5;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+</style>
+</head>
+<body>
+<h1>Поиск текста песни</h1>
+<p><strong>Имя пользователя: </strong> {{ user }}</p>
+<form method="post">
+    <input type="text" name="song" placeholder="Название песни" value="{{ song }}" required>
+    <input type="text" name="artist" placeholder="Исполнитель (необязательно)" value="{{ artist }}">
+    <button type="submit">Найти</button>
+</form>
+
+{% if lyrics %}
+    <div class="lyrics">
+        <h2>Текст песни:</h2>
+        <pre>{{ lyrics }}</pre>
+    </div>
+    {% if song_info %}
+    <div class="songinfo" style="margin-top: 20px; background: {% if theme == 'dark' %}#191919{% else %}#f7f7f7{% endif %};
+         padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.05); display: flex; align-items: flex-start;">
+        {% if song_info.song_art_image %}
+        <img src="{{ song_info.song_art_image }}" alt="Обложка" style="width: 100px; height: 100px; border-radius: 6px; margin-right: 20px;">
+        {% endif %}
+        <div>
+            <div><strong>Песня:</strong> {{ song_info.title }}</div>
+            <div><strong>Полное название:</strong> {{ song_info.full_title }}</div>
+            <div><strong>Альбом:</strong> {{ song_info.album }}</div>
+            <div><strong>Исполнитель:</strong> <a href="{{ song_info.artist_url }}" target="_blank" style="color: #007BFF;">{{ song_info.artist }}</a></div>
+            <div><strong>Дата выхода:</strong> {{ song_info.year }}</div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+</body>
+</html>
